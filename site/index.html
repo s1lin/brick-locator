@@ -22,7 +22,7 @@
 <a class="skip" href="#parts-heading">Skip to the parts</a>
 <header class="runhead">
   <div class="wrap">
-    <a class="runhead__brand" href="/"><b>S1LIN</b><span lang="ja">設計</span></a>
+    <a class="runhead__brand" href="/"><svg class="brand-mark runhead__mark" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64"/><path d="M32 14v36M14 32h36"/></svg><b>S1LIN</b><span lang="ja">設計</span></a>
     <p class="runhead__now"><b lang="ja">工房</b>&ensp;Brick Locator</p>
     <span class="runhead__vol">Vespa · set 40517</span>
     <button class="theme-toggle" type="button" aria-label="Switch between paper and night"><span lang="ja">夜</span></button>
@@ -53,17 +53,47 @@
   <section class="spread" id="booklet" aria-labelledby="booklet-heading">
     <div class="wrap">
       <h2 class="sect-label" id="booklet-heading"><span lang="ja">冊子</span> Your booklet</h2>
-      <div class="gate">
-        <ol class="gate__steps">
-          <li><p>Download the booklet from LEGO: <a id="download" href="#" target="_blank" rel="noopener">instructions 6394823, Vespa (set 40517)</a>.<br><span class="mono">PDF · 40 pages · 6 MB</span></p></li>
-          <li><p>Open it here, or drop it on the box. It is checked against the reviewed booklet before anything is shown.</p></li>
-          <li><p>It never leaves your browser. Apart from the sample above, this site holds only the index: part numbers, steps, pages and positions. This device can keep the booklet for next time.</p></li>
-        </ol>
-        <label class="drop" id="drop">
-          <input id="booklet-file" type="file" accept="application/pdf,.pdf">
-          <b>Open your booklet</b>
-          <span class="mono">Choose the PDF, or drop it here</span>
-        </label>
+      <div class="gate" id="gate">
+        <div class="gate__intro">
+          <p class="gate__title">Bring your own <em>booklet.</em></p>
+          <p class="gate__dek">The pages are drawn from your copy, not sent from this site, and your copy never leaves this browser.</p>
+          <ol class="gate__steps">
+            <li>
+              <h3>Download it from LEGO</h3>
+              <a class="gate__get" id="download" href="#" target="_blank" rel="noopener">
+                <span class="gate__file">6394823.pdf</span>
+                <span class="mono">lego.com ↗</span>
+              </a>
+              <p class="mono">PDF · 40 pages · 6 MB. It may open in a new tab; save it from there.</p>
+            </li>
+            <li>
+              <h3>Open it here</h3>
+              <p>Drop it on the sheet, or choose it. Nothing is drawn until it matches the booklet this index was made from.</p>
+            </li>
+          </ol>
+        </div>
+
+        <div class="gate__plate">
+          <label class="sheetdrop" id="drop">
+            <input id="booklet-file" type="file" accept="application/pdf,.pdf">
+            <span class="sheetdrop__dim sheetdrop__dim--w" aria-hidden="true"><span>135 mm</span></span>
+            <span class="sheetdrop__dim sheetdrop__dim--h" aria-hidden="true"><span>102 mm</span></span>
+            <span class="sheetdrop__body">
+              <b class="sheetdrop__title"><span class="sheetdrop__idle">Drop the booklet here</span><span class="sheetdrop__over">Let go to open it</span></b>
+              <span class="sheetdrop__button">Choose the PDF</span>
+            </span>
+            <span class="sheetdrop__block" aria-hidden="true">
+              <b>6394823</b>
+              <span>Vespa · set 40517</span>
+              <span>40 pp. · 135 × 102</span>
+            </span>
+          </label>
+          <ol class="checks" id="checks">
+            <li data-step="read"><b>Read</b> <span>your file, in this browser</span></li>
+            <li data-step="check"><b>Check</b> <span>its SHA-256 against the reviewed booklet</span></li>
+            <li data-step="draw"><b>Draw</b> <span>the inventory, from your pages</span></li>
+          </ol>
+        </div>
         <p class="gate__status" id="gate-status" role="status" aria-live="polite"></p>
       </div>
     </div>

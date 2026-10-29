@@ -76,6 +76,10 @@ button, input { font: inherit; color: inherit; }
 .runhead__brand { text-decoration: none; display: flex; align-items: baseline; gap: 10px; white-space: nowrap; }
 .runhead__brand b { font: 800 15px/1 var(--f-sans); letter-spacing: -0.01em; text-transform: none; }
 .runhead__brand span { font-family: var(--f-mincho); font-size: 13px; letter-spacing: 0.2em; }
+.runhead__mark { width: 18px; height: 18px; flex: none; align-self: center; }
+/* The mark, a cross on a block of ink, as on the site. */
+.brand-mark rect { fill: var(--sumi); }
+.brand-mark path { fill: none; stroke: var(--paper); stroke-width: 5; }
 .runhead__now { flex: 1; margin: 0; text-align: center; color: var(--ink-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .runhead__now b { color: var(--sumi); font-weight: 500; }
 .runhead__vol { white-space: nowrap; color: var(--ink-2); }
@@ -109,22 +113,93 @@ figcaption, .cap { margin-top: 10px; font: 400 11px/1.55 var(--f-mono); letter-s
 
 /* ------------------------------------------------------------------ the booklet: bring your own */
 .gate { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--gap); align-items: start; }
-.gate__steps { grid-column: 1 / span 6; margin: 0; padding: 0; list-style: none; counter-reset: step; }
-.gate__steps li { counter-increment: step; display: grid; grid-template-columns: 2.4em 1fr; gap: 12px; padding: 16px 0; border-top: 0.5px solid var(--rule); }
-.gate__steps li::before { content: counter(step, decimal-leading-zero); font: 500 11px/1.9 var(--f-mono); letter-spacing: 0.12em; color: var(--ink-3); }
-.gate__steps p { margin: 0; }
-.gate__steps .mono { color: var(--ink-2); }
-.drop {
-  grid-column: 8 / span 5; position: relative; display: grid; place-items: center; gap: 10px; text-align: center;
-  min-height: 220px; padding: 28px; border: 0.5px dashed var(--rule-strong); cursor: pointer;
-}
-.drop::after { content: ""; position: absolute; inset: -6px; pointer-events: none; background: var(--corners); }
-.drop.is-over { background: var(--paper-2); border-style: solid; }
-.drop b { font: 400 clamp(1.6rem, 2.4vw, 2.2rem) / 1.05 var(--f-display); }
-.drop input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
-.gate__status { grid-column: 1 / -1; margin: 6px 0 0; min-height: 1.6em; font: 400 13px/1.5 var(--f-mono); color: var(--ink-2); }
+.gate__intro { grid-column: 1 / span 5; }
+.gate__title { margin: 0; font: 400 clamp(2rem, 3.4vw, 3rem) / 1 var(--f-display); letter-spacing: -0.01em; }
+.gate__title em { color: var(--ink-2); }
+.gate__dek { max-width: 30em; margin: 14px 0 0; color: var(--ink-2); }
+.gate__steps { margin: 30px 0 0; padding: 0; list-style: none; counter-reset: step; }
+.gate__steps li { counter-increment: step; position: relative; padding: 18px 0 20px 3.2rem; border-top: 0.5px solid var(--rule); }
+.gate__steps li::before { content: counter(step); position: absolute; left: 0; top: 12px; font: 400 2.8rem/1 var(--f-display); }
+.gate__steps h3 { margin: 0 0 10px; font: 500 11px/1.4 var(--f-mono); letter-spacing: 0.14em; text-transform: uppercase; }
+.gate__steps p { margin: 8px 0 0; }
+.gate__steps p.mono { font-size: 11px; line-height: 1.55; letter-spacing: 0.02em; text-transform: none; color: var(--ink-2); }
+.gate__get { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 12px 14px; border: 0.5px solid var(--rule-strong); text-decoration: none; transition: background-color 0.15s, color 0.15s; }
+.gate__get:hover { background: var(--sumi); color: var(--paper); }
+.gate__get .mono { color: inherit; }
+.gate__file { font: 400 1.5rem/1 var(--f-display); }
+
+/* The sheet: the booklet's own trim, 135 × 102 mm, drawn as a plate with its
+   dimension lines, crop marks and title block. The file goes on it. */
+.gate__plate { grid-column: 7 / span 6; padding: 32px 0 0 36px; }
+.sheetdrop { position: relative; display: grid; place-items: center; aspect-ratio: 382.68 / 289.13; border: 0.5px solid var(--rule-strong); cursor: pointer; transition: background-color 0.15s; }
+.sheetdrop::after { content: ""; position: absolute; inset: -6px; pointer-events: none; background: var(--corners); }
+.sheetdrop input { position: absolute; inset: 0; z-index: 2; width: 100%; opacity: 0; cursor: pointer; }
+.sheetdrop:has(input:focus-visible) { outline: 2px solid var(--sumi); outline-offset: 12px; }
+.sheetdrop:hover { background: var(--paper-2); }
+/* Section hatching while a file is held over the sheet. */
+.sheetdrop.is-over { background: repeating-linear-gradient(-45deg, var(--rule-strong) 0 1px, transparent 1px 9px); }
+.sheetdrop.is-over .sheetdrop__body { background: var(--paper); }
+.sheetdrop__body { display: grid; justify-items: center; gap: 18px; padding: 18px 24px; text-align: center; }
+.sheetdrop__title { font: 400 clamp(1.7rem, 2.6vw, 2.5rem) / 1.05 var(--f-display); }
+.sheetdrop__over, .sheetdrop.is-over .sheetdrop__idle { display: none; }
+.sheetdrop.is-over .sheetdrop__over { display: inline; font-style: italic; }
+.sheetdrop__button { padding: 11px 18px; border: 0.5px solid var(--rule-strong); font: 500 11px/1 var(--f-mono); letter-spacing: 0.14em; text-transform: uppercase; transition: background-color 0.15s, color 0.15s; }
+.sheetdrop:hover .sheetdrop__button { background: var(--sumi); color: var(--paper); }
+.sheetdrop__block { position: absolute; right: 0; bottom: 0; display: grid; gap: 3px; padding: 8px 12px; border-top: 0.5px solid var(--rule-strong); border-left: 0.5px solid var(--rule-strong); font: 400 10px/1.3 var(--f-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-2); }
+.sheetdrop__block b { font-weight: 500; letter-spacing: 0.14em; color: var(--sumi); }
+.sheetdrop__dim { position: absolute; color: var(--ink-3); font: 400 10px/1 var(--f-mono); letter-spacing: 0.08em; pointer-events: none; }
+.sheetdrop__dim::before, .sheetdrop__dim::after { content: ""; position: absolute; background: currentColor; }
+.sheetdrop__dim span { position: absolute; padding: 0 8px; background: var(--paper); white-space: nowrap; }
+.sheetdrop__dim--w { left: 0; right: 0; top: -22px; border-top: 0.5px solid; }
+.sheetdrop__dim--w::before, .sheetdrop__dim--w::after { top: -5px; width: 1px; height: 9px; transform: rotate(45deg); }
+.sheetdrop__dim--w::before { left: 0; }
+.sheetdrop__dim--w::after { right: 0; }
+.sheetdrop__dim--w span { left: 50%; top: -5px; transform: translateX(-50%); }
+.sheetdrop__dim--h { top: 0; bottom: 0; left: -24px; border-left: 0.5px solid; }
+.sheetdrop__dim--h::before, .sheetdrop__dim--h::after { left: -5px; width: 9px; height: 1px; transform: rotate(45deg); }
+.sheetdrop__dim--h::before { top: 0; }
+.sheetdrop__dim--h::after { bottom: 0; }
+.sheetdrop__dim--h span { top: 50%; left: 0; transform: translate(-50%, -50%) rotate(-90deg); }
+
+/* The checks, as they run: read the file, check its hash, draw the inventory. */
+.checks { margin: 22px 0 0; padding: 0; list-style: none; counter-reset: check; font: 400 12px/1.5 var(--f-mono); }
+.checks li { counter-increment: check; display: grid; grid-template-columns: 2.2em 4.4em minmax(0, 1fr) 1.2em; gap: 10px; align-items: baseline; padding: 7px 0; border-top: 0.5px solid var(--rule); color: var(--ink-3); }
+.checks li::before { content: counter(check, decimal-leading-zero); }
+.checks li::after { content: ""; text-align: right; }
+.checks b { font-weight: 500; font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; }
+.checks span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.checks [data-state="busy"] { color: var(--ink-2); }
+.checks [data-state="busy"]::after { content: "…"; animation: pulse 0.9s steps(2) infinite; }
+.checks [data-state="done"], .checks [data-state="fail"] { color: var(--sumi); }
+.checks [data-state="done"]::after { content: "✓"; }
+.checks [data-state="fail"]::after { content: "✕"; }
+@keyframes pulse { 50% { opacity: 0.25; } }
+@media (prefers-reduced-motion: reduce) { .checks [data-state="busy"]::after { animation: none; } }
+.gate__status { grid-column: 7 / span 6; margin: 0; padding-left: 36px; font: 400 13px/1.5 var(--f-mono); color: var(--ink-2); }
+.gate__status:empty { display: none; }
 .gate__status.is-wrong { color: var(--sumi); }
-@media (max-width: 900px) { .gate__steps, .drop { grid-column: 1 / -1; } }
+
+/* Once the booklet is open, the gate folds to its three ticks. */
+#booklet:has(.gate.is-open) { padding-block: 26px; }
+.gate.is-open { display: block; }
+.gate.is-open .gate__intro, .gate.is-open .sheetdrop { display: none; }
+.gate.is-open .gate__plate { padding: 0; }
+.gate.is-open .checks { margin: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: var(--gap); }
+.gate.is-open .checks li { grid-template-columns: 2.2em auto minmax(0, 1fr) 1.2em; }
+.gate.is-open .gate__status:not(.is-wrong) { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+
+@media (max-width: 900px) {
+  .gate__intro, .gate__plate, .gate__status { grid-column: 1 / -1; }
+  .gate__plate { margin-top: 12px; }
+  .gate.is-open .checks { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  .gate__plate { padding: 28px 0 0 28px; }
+  .gate__status { padding-left: 28px; }
+  .sheetdrop__dim--h { left: -20px; }
+  .sheetdrop__block { display: none; }
+  .checks span { white-space: normal; }
+}
 
 /* ------------------------------------------------------------------ the workspace */
 .workspace { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--gap); align-items: start; }

@@ -71,49 +71,69 @@ function keeping(yes) {
   forget.hidden = !yes;
 }
 
+// The three checks under the sheet, ticked as they run.
+const checks = Object.fromEntries([...document.querySelectorAll("#checks li")].map((li) => [li.dataset.step, li]));
+const waiting = Object.fromEntries(Object.entries(checks).map(([step, li]) => [step, li.querySelector("span").textContent]));
+function tick(step, state, note = waiting[step]) {
+  checks[step].dataset.state = state;
+  checks[step].querySelector("span").textContent = note;
+}
+const short = (hash) => `${hash.slice(0, 6)}…${hash.slice(-6)}`;
+const size = (bytes) => (bytes < 1e6 ? `${Math.ceil(bytes / 1e3)} KB` : `${(bytes / 1e6).toFixed(1)} MB`);
+
 /** Check a booklet against the reviewed one, then open it. */
 async function accept(buffer, { remember }) {
   status.classList.remove("is-wrong");
-  status.textContent = "Checking the booklet…";
-  if ((await sha256(buffer)) !== KEY) {
+  status.textContent = "";
+  tick("read", "done", `${size(buffer.byteLength)}, ${remember ? "in this browser" : "the copy this device kept"}`);
+  tick("check", "busy");
+  tick("draw", "wait");
+  const hash = await sha256(buffer);
+  if (hash !== KEY) {
+    tick("check", "fail", `SHA-256 ${short(hash)}, not ${short(KEY)}`);
     status.classList.add("is-wrong");
-    status.textContent = `That is not booklet ${book.booklet.id}. Download it from LEGO with the link above, and open that file.`;
+    status.textContent = `That is not booklet ${book.booklet.id}. Download it from LEGO with the link, and open that file.`;
     return;
   }
+  tick("check", "done", `SHA-256 ${short(hash)}, the reviewed booklet`);
   if (remember) await kept.put(buffer);
   keeping(true);
-  if (pdf) {
-    status.textContent = `Booklet ${book.booklet.id} is already open.`;
-    return;
-  }
+  if (pdf) return;
   fileUrl = URL.createObjectURL(new Blob([buffer], { type: "application/pdf" }));
+  tick("draw", "busy");
   try {
     pdf = await pdfjs.getDocument({ data: new Uint8Array(buffer.slice(0)) }).promise;
   } catch {
+    tick("draw", "fail", "the PDF could not be read");
     status.classList.add("is-wrong");
     status.textContent = "The booklet could not be read. Download it again and retry.";
     return;
   }
-  status.textContent = `Booklet ${book.booklet.id} is open${remember ? "" : ", from the copy this device kept"}.`;
   await begin();
+  tick("draw", "done", `${book.parts.length} piece types, from pages ${book.inventory_pages.join("–")}`);
+  $("#gate").classList.add("is-open");
+  status.textContent = `Booklet ${book.booklet.id} is open${remember ? "" : ", from the copy this device kept"}.`;
+  if (remember) $("#booklet").scrollIntoView({ block: "start" });
+}
+
+async function openFile(file) {
+  if (!file) return;
+  tick("read", "busy", file.name);
+  await accept(await file.arrayBuffer(), { remember: true });
 }
 
 $("#download").href = book.booklet.url;
 const drop = $("#drop");
-$("#booklet-file").addEventListener("change", async (e) => {
-  const file = e.target.files?.[0];
-  if (file) await accept(await file.arrayBuffer(), { remember: true });
-});
+$("#booklet-file").addEventListener("change", (e) => openFile(e.target.files?.[0]));
 drop.addEventListener("dragover", (e) => {
   e.preventDefault();
   drop.classList.add("is-over");
 });
 drop.addEventListener("dragleave", () => drop.classList.remove("is-over"));
-drop.addEventListener("drop", async (e) => {
+drop.addEventListener("drop", (e) => {
   e.preventDefault();
   drop.classList.remove("is-over");
-  const file = e.dataTransfer?.files?.[0];
-  if (file) await accept(await file.arrayBuffer(), { remember: true });
+  openFile(e.dataTransfer?.files?.[0]);
 });
 forget.addEventListener("click", async () => {
   await kept.forget();
