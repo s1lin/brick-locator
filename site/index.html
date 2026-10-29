@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600;800&family=JetBrains+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@700&family=Zen+Kaku+Gothic+New:wght@500&display=swap&text=%E4%BB%98%E5%86%8A%E5%93%81%E5%A4%9C%E5%A5%A5%E5%AD%90%E5%B7%A5%E6%88%BF%E6%89%8B%E7%B4%99%E8%A8%88%E8%A8%AD%E9%83%A8%E9%A0%86">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@700&family=Zen+Kaku+Gothic+New:wght@500&display=swap&text=%E4%BB%98%E5%86%8A%E5%93%81%E5%A4%9C%E5%A5%A5%E5%AD%90%E5%B7%A5%E6%88%BF%E6%89%8B%E7%B4%99%E8%A8%88%E8%A8%AD%E9%83%A8%E9%A0%86%E8%A6%8B%E6%9C%AC">
 <link rel="stylesheet" href="style.css">
 <script>
   // The site's own theme choice, shared on this origin.
@@ -38,6 +38,18 @@
     </div>
   </section>
 
+  <section class="spread" id="sample" aria-labelledby="sample-heading">
+    <div class="wrap sample">
+      <h2 class="sect-label" id="sample-heading"><span lang="ja">見本</span> How it reads: a sample</h2>
+      <div class="sample__piece">
+        <p class="sample__say">Say this one is left over. Pick it from the inventory, and you get:</p>
+        <div id="sample-piece"></div>
+      </div>
+      <div class="sample__pages figs" id="sample-pages"></div>
+      <p class="cap sample__note">A sample: two of the booklet's 40 pages and one part picture, as printed. This page lays the frames over them and changes nothing on the page itself. Every other page comes from your own copy.</p>
+    </div>
+  </section>
+
   <section class="spread" id="booklet" aria-labelledby="booklet-heading">
     <div class="wrap">
       <h2 class="sect-label" id="booklet-heading"><span lang="ja">冊子</span> Your booklet</h2>
@@ -45,7 +57,7 @@
         <ol class="gate__steps">
           <li><p>Download the booklet from LEGO: <a id="download" href="#" target="_blank" rel="noopener">instructions 6394823, Vespa (set 40517)</a>.<br><span class="mono">PDF · 40 pages · 6 MB</span></p></li>
           <li><p>Open it here, or drop it on the box. It is checked against the reviewed booklet before anything is shown.</p></li>
-          <li><p>It never leaves your browser. This site holds only the index: part numbers, steps, pages and positions. This device can keep the booklet for next time.</p></li>
+          <li><p>It never leaves your browser. Apart from the sample above, this site holds only the index: part numbers, steps, pages and positions. This device can keep the booklet for next time.</p></li>
         </ol>
         <label class="drop" id="drop">
           <input id="booklet-file" type="file" accept="application/pdf,.pdf">
@@ -87,7 +99,7 @@
       <dt>Code</dt>
       <dd><a href="https://github.com/s1lin/brick-locator">github.com/s1lin/brick-locator</a>, under the GNU AGPL 3.0. Pages are drawn with <a href="https://mozilla.github.io/pdf.js/">PDF.js</a> (Apache 2.0).</dd>
       <dt>Small print</dt>
-      <dd>LEGO® is a trademark of the LEGO Group of companies which does not sponsor, authorize or endorse this site. The instruction artwork is © the LEGO Group; this site hosts none of it.</dd>
+      <dd>LEGO® is a trademark of the LEGO Group of companies which does not sponsor, authorize or endorse this site. The instruction artwork is © the LEGO Group. This site shows two of its pages and one part picture, unaltered, as a sample; every other page is drawn from your own copy.</dd>
     </dl>
     <div class="endmark mono"><p>© 2026 s1lin</p><p><a href="/">s1lin.tokensbeat.com ↗</a></p></div>
   </div>

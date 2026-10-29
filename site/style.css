@@ -149,14 +149,14 @@ figcaption, .cap { margin-top: 10px; font: 400 11px/1.55 var(--f-mono); letter-s
 
 .selection { display: grid; grid-template-columns: 112px 1fr; gap: 18px; align-items: center; margin-bottom: 26px; }
 .selection__picture { display: grid; place-items: center; height: 96px; background: #fff; border: 0.5px solid var(--rule); }
-.selection__picture canvas { max-width: 84px; max-height: 72px; width: auto; height: auto; }
+.selection__picture :is(canvas, img) { max-width: 84px; max-height: 72px; width: auto; height: auto; }
 .selection__count { margin: 0; font: 400 clamp(2rem, 3.4vw, 3rem) / 1 var(--f-display); }
 .selection__count em { font-style: italic; color: var(--ink-2); }
 .selection p { margin: 6px 0 0; }
 
 .match { margin: 0 0 34px; }
 .sheet { position: relative; display: block; background: #fff; border: 0.5px solid var(--rule); }
-.sheet canvas { width: 100%; height: auto; }
+.sheet :is(canvas, img) { width: 100%; height: auto; }
 /* The pages are always light, so the mark is drawn in fixed ink with a white halo, in either theme. */
 .mark { position: absolute; pointer-events: none; border: 2.5px solid #111; box-shadow: 0 0 0 2px #fff, 0 0 0 3.5px #111; }
 .match details { margin-top: 10px; border-top: 0.5px solid var(--rule); padding-top: 8px; }
@@ -167,6 +167,17 @@ figcaption, .cap { margin-top: 10px; font: 400 11px/1.55 var(--f-mono); letter-s
 .empty p { max-width: 34em; color: var(--ink-2); }
 .empty .sheet { margin-top: 18px; }
 .note { max-width: 36em; font-size: 0.9rem; color: var(--ink-2); }
+
+/* The sample: what a result looks like, before a booklet is open. */
+.sample { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--gap); align-items: start; }
+.sample > .sect-label { grid-column: 1 / -1; margin-bottom: 0; }
+.sample__piece { grid-column: 1 / span 4; }
+.sample__say { margin: 0 0 18px; color: var(--ink-2); }
+.sample__pages { grid-column: 5 / span 8; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gap); }
+.sample__pages .match { margin: 0; }
+.sample__note { grid-column: 5 / span 8; margin-top: 0; }
+@media (max-width: 900px) { .sample__piece, .sample__pages, .sample__note { grid-column: 1 / -1; } }
+@media (max-width: 640px) { .sample__pages { grid-template-columns: 1fr; } }
 
 @media (max-width: 900px) {
   .inventory, .results { grid-column: 1 / -1; position: static; }

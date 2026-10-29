@@ -104,6 +104,8 @@ def index_book(document, reference):
         raise ValueError("The booklet's step sequence is incomplete")
     if set(parts) != set(reference["parts"]) or len(image_parts) != len(parts):
         raise ValueError("The reviewed part mapping is incomplete")
+    if reference["sample_part"] not in parts:
+        raise ValueError("The sample part is not in the inventory")
     for step in steps.values():
         next_page = steps.get(step["number"] + 1, {"page": reference["instruction_pages"][1] + 1})["page"]
         step["last_page"] = max(step["page"], next_page - 1)
@@ -119,6 +121,7 @@ def index_book(document, reference):
         "page_count": len(document), "step_count": len(steps),
         "width": round(document[0].rect.width, 2), "height": round(document[0].rect.height, 2),
         "inventory_pages": reference["inventory_pages"],
+        "sample_part": reference["sample_part"],
         "parts": sorted(parts.values(), key=lambda p: (p["page"], p["image_bbox"][1], p["image_bbox"][0])),
     }
 

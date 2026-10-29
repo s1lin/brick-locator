@@ -12,6 +12,7 @@ import unittest
 
 ROOT = Path(__file__).resolve().parent.parent
 INDEX = ROOT / "site" / "books" / "40517.json"
+SAMPLE = ROOT / "site" / "sample"
 BOOKLET = ROOT / "booklets" / "6394823.pdf"
 
 
@@ -65,6 +66,16 @@ class IndexTests(unittest.TestCase):
         self.assertNotIn("data:image", text)
         self.assertTrue(self.book["booklet"]["url"].startswith("https://www.lego.com/"))
 
+    def test_the_sample_is_a_limited_extract(self):
+        # The pages that add one part, and its picture. Nothing more of the booklet is in the repo.
+        part = self.parts[self.book["sample_part"]]
+        pages = {use["page"] for use in part["uses"]}
+        self.assertLessEqual(len(pages), 2)
+        expected = {f"part-{part['id']}.png"} | {f"page-{n}.png" for n in pages}
+        self.assertEqual({path.name for path in SAMPLE.iterdir()}, expected)
+        for path in SAMPLE.iterdir():
+            self.assertTrue(path.read_bytes().startswith(b"\x89PNG"), path.name)
+
 
 @unittest.skipUnless(BOOKLET.exists(), "no copy of the booklet in booklets/")
 @unittest.skipUnless(importlib.util.find_spec("pymupdf"), "PyMuPDF is not installed")
@@ -82,6 +93,12 @@ class RebuildTests(unittest.TestCase):
             other.write_bytes(b"different booklet")
             with self.assertRaisesRegex(ValueError, "differs from the reviewed booklet"):
                 build_index.load(other)
+
+    def test_the_sample_is_the_booklet_unaltered(self):
+        import build_sample
+
+        files = build_sample.render(BOOKLET)
+        self.assertEqual({name: (SAMPLE / name).read_bytes() for name in files}, files)
 
 
 if __name__ == "__main__":

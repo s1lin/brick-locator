@@ -11,9 +11,17 @@ against the printed inventory.
 
 ## How it works
 
-The site holds no instruction artwork. It holds an index of the booklet
-(`site/books/40517.json`): element IDs, quantities, step numbers, pages and the
-positions of the part pictures and callouts. Nothing else.
+The site holds an index of the booklet (`site/books/40517.json`): element
+IDs, quantities, step numbers, pages and the positions of the part pictures and
+callouts. Apart from one sample, it holds no instruction artwork.
+
+The sample shows what a result looks like before you open anything: the two
+pages that add part 6365716, plus its inventory picture, in `site/sample/`.
+They are rendered from the booklet unaltered, and the frames are drawn over
+them by the page. LEGO's Fair Play policy says it "does not object to
+scanning of limited extracts of these materials in unaltered form". The tests
+hold the sample to that: at most two pages, and byte for byte what the
+booklet renders.
 
 You bring the booklet:
 
@@ -47,12 +55,13 @@ You need a copy of the booklet and PyMuPDF:
 python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
 curl -o booklets/6394823.pdf https://www.lego.com/cdn/product-assets/product.bi.core.pdf/6394823.pdf
 .venv/bin/python tools/build_index.py booklets/6394823.pdf
+.venv/bin/python tools/build_sample.py booklets/6394823.pdf
 .venv/bin/python -m unittest discover -s tools -v
 ```
 
 `booklets/*.pdf` is ignored by git, and must stay that way. The tests check
 the committed index against the printed inventory. With the booklet present,
-they also rebuild the index and require an identical result.
+they also rebuild the index and the sample and require identical results.
 
 The builder only accepts the reviewed PDF. `tools/40517.reference.json` pins
 its SHA-256 and maps each part to the picture the booklet uses for it, so a
@@ -69,4 +78,5 @@ licence (`site/vendor/pdfjs/LICENSE`).
 
 LEGO® is a trademark of the LEGO Group of companies which does not sponsor,
 authorize or endorse this site. The building instructions are © the LEGO
-Group, and this repository contains none of them.
+Group. This repository contains none of them except the sample in
+`site/sample/`, which is © the LEGO Group and not covered by the AGPL.

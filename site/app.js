@@ -159,7 +159,22 @@ const SHEET = 3; // pages for reading, at three times their printed size
 const THUMB = 4; // the inventory, a little sharper, as its pictures are small
 const pictures = new Map(); // part id -> canvas of its inventory picture
 
-/** A page as a figure: the drawn page, with an optional mark round a callout, linked to the page in the PDF. */
+/** A frame round a callout, in booklet points, laid over a page. The page itself is left as printed. */
+function frame(sheet, [x0, y0, x1, y1]) {
+  const span = document.createElement("span");
+  span.className = "mark";
+  span.setAttribute("aria-hidden", "true");
+  Object.assign(span.style, {
+    left: `${((x0 - 2) / book.width) * 100}%`,
+    top: `${((y0 - 2) / book.height) * 100}%`,
+    width: `${((x1 - x0 + 4) / book.width) * 100}%`,
+    height: `${((y1 - y0 + 4) / book.height) * 100}%`,
+  });
+  sheet.append(span);
+  return sheet;
+}
+
+/** A page drawn from the reader's copy, with an optional frame round a callout, linked to that page in it. */
 async function sheet(number, label, mark) {
   const link = document.createElement("a");
   link.className = "sheet";
@@ -170,20 +185,7 @@ async function sheet(number, label, mark) {
   canvas.setAttribute("role", "img");
   canvas.setAttribute("aria-label", label);
   link.append(canvas);
-  if (mark) {
-    const [x0, y0, x1, y1] = mark;
-    const span = document.createElement("span");
-    span.className = "mark";
-    span.setAttribute("aria-hidden", "true");
-    Object.assign(span.style, {
-      left: `${((x0 - 2) / book.width) * 100}%`,
-      top: `${((y0 - 2) / book.height) * 100}%`,
-      width: `${((x1 - x0 + 4) / book.width) * 100}%`,
-      height: `${((y1 - y0 + 4) / book.height) * 100}%`,
-    });
-    link.append(span);
-  }
-  return link;
+  return mark ? frame(link, mark) : link;
 }
 
 const copyOf = (canvas) => {
@@ -194,6 +196,51 @@ const copyOf = (canvas) => {
   return c;
 };
 
+// ------------------------------------------------------------------ a chosen piece and the steps that add it
+
+/** The chosen piece: its picture, and how many steps add it. */
+function selection(part, picture) {
+  const steps = new Set(part.uses.map((u) => u.step)).size;
+  const div = document.createElement("div");
+  div.className = "selection";
+  div.innerHTML = `<div class="selection__picture"></div>
+    <div><p class="selection__count">${plural(steps, "step")} <em>${steps === 1 ? "adds" : "add"} it</em></p>
+    <p>${plural(part.quantity, "piece")} of it in the whole build.</p></div>`;
+  div.querySelector(".selection__picture").append(picture);
+  return div;
+}
+
+const stepCaption = (use) =>
+  `Step ${use.step}, ${use.last_page > use.page ? `pages ${use.page}–${use.last_page}` : `page ${use.page}`}: adds ${plural(use.quantity, "piece")}.`;
+
+// The sample, before a booklet is open: the pages that add one part, as printed, from site/sample.
+function showSample() {
+  const part = book.parts.find((p) => p.id === book.sample_part);
+  const picture = Object.assign(new Image(), { src: `sample/part-${part.id}.png`, alt: `Part ${part.id}, as pictured in the inventory` });
+  $("#sample-piece").replaceChildren(selection(part, picture));
+  $("#sample-pages").replaceChildren(
+    ...part.uses.map((use) => {
+      const sheet = document.createElement("div");
+      sheet.className = "sheet";
+      sheet.append(
+        Object.assign(new Image(), {
+          src: `sample/page-${use.page}.png`,
+          width: Math.ceil(book.width * 2),
+          height: Math.ceil(book.height * 2),
+          alt: `Page ${use.page} of the booklet, as printed, with part ${part.id} framed among the pieces for step ${use.step}`,
+        }),
+      );
+      const figure = document.createElement("figure");
+      figure.className = "match";
+      const caption = document.createElement("figcaption");
+      caption.textContent = stepCaption(use);
+      figure.append(frame(sheet, use.bbox), caption);
+      return figure;
+    }),
+  );
+}
+showSample();
+
 // ------------------------------------------------------------------ the inventory and the steps
 
 async function begin() {
@@ -201,6 +248,7 @@ async function begin() {
     const source = await page(number, THUMB);
     for (const part of book.parts.filter((p) => p.page === number)) pictures.set(part.id, crop(source, THUMB, part.image_bbox));
   }
+  $("#sample").hidden = true;
   $("#workspace").hidden = false;
   renderInventory();
   await showPart();
@@ -247,11 +295,8 @@ async function showPart() {
 
   const steps = new Set(part.uses.map((u) => u.step)).size;
   const head = document.createElement("div");
-  head.innerHTML = `<h2 class="sect-label" id="results-heading" tabindex="-1"><span lang="ja">手順</span> Part ${part.id}</h2>
-    <div class="selection"><div class="selection__picture"></div>
-      <div><p class="selection__count">${plural(steps, "step")} <em>${steps === 1 ? "adds" : "add"} it</em></p>
-      <p>${plural(part.quantity, "piece")} of it in the whole build.</p></div></div>`;
-  head.querySelector(".selection__picture").append(copyOf(pictures.get(part.id)));
+  head.innerHTML = `<h2 class="sect-label" id="results-heading" tabindex="-1"><span lang="ja">手順</span> Part ${part.id}</h2>`;
+  head.append(selection(part, copyOf(pictures.get(part.id))));
 
   const figures = [];
   for (const use of part.uses) {
@@ -259,8 +304,7 @@ async function showPart() {
     figure.className = "match";
     figure.append(await sheet(use.page, `Page ${use.page}, with part ${part.id} marked among the pieces for step ${use.step}`, use.bbox));
     const caption = document.createElement("figcaption");
-    const pages = use.last_page > use.page ? `pages ${use.page}–${use.last_page}` : `page ${use.page}`;
-    caption.innerHTML = `Step ${use.step}, ${pages}: adds ${plural(use.quantity, "piece")}. <a href="${fileUrl}#page=${use.page}" target="_blank" rel="noopener">Open in your booklet ↗</a>`;
+    caption.innerHTML = `${stepCaption(use)} <a href="${fileUrl}#page=${use.page}" target="_blank" rel="noopener">Open in your booklet ↗</a>`;
     figure.append(caption);
     for (let n = use.page + 1; n <= use.last_page; n++) {
       const more = document.createElement("details");
