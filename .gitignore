@@ -1,0 +1,4 @@
+# Your copy of a booklet stays on your machine. The repo holds only its index.
+booklets/*.pdf
+__pycache__/
+.venv/

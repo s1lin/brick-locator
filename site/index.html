@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Brick Locator — for LEGO® instruction booklets</title>
+<meta name="description" content="One piece left over? Pick it from the booklet's inventory and see every step that adds it, marked on the page. Works with your own copy of the booklet, in your browser.">
+<meta name="theme-color" content="#f6f6f4" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f0f0f" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23111'/%3E%3Cpath d='M32 14v36M14 32h36' stroke='%23f6f6f4' stroke-width='5'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600;800&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@700&family=Zen+Kaku+Gothic+New:wght@500&display=swap&text=%E4%BB%98%E5%86%8A%E5%93%81%E5%A4%9C%E5%A5%A5%E5%AD%90%E5%B7%A5%E6%88%BF%E6%89%8B%E7%B4%99%E8%A8%88%E8%A8%AD%E9%83%A8%E9%A0%86">
+<link rel="stylesheet" href="style.css">
+<script>
+  // The site's own theme choice, shared on this origin.
+  try { const t = localStorage.getItem("s1lin-theme"); if (t === "light" || t === "dark") document.documentElement.dataset.theme = t; } catch (_) {}
+</script>
+</head>
+<body>
+<a class="skip" href="#parts-heading">Skip to the parts</a>
+<header class="runhead">
+  <div class="wrap">
+    <a class="runhead__brand" href="/"><b>S1LIN</b><span lang="ja">設計</span></a>
+    <p class="runhead__now"><b lang="ja">工房</b>&ensp;Brick Locator</p>
+    <span class="runhead__vol">Vespa · set 40517</span>
+    <button class="theme-toggle" type="button" aria-label="Switch between paper and night"><span lang="ja">夜</span></button>
+  </div>
+</header>
+
+<main>
+  <section class="spread">
+    <div class="wrap">
+      <p class="kicker"><span lang="ja">工房</span> Workshop No. 01 · Brick Locator</p>
+      <h1 class="display">One piece <em>left over?</em></h1>
+      <p class="dek">Pick it from the booklet's inventory and see every step that adds it, marked on the page. Then look at your build where those steps put it.</p>
+    </div>
+  </section>
+
+  <section class="spread" id="booklet" aria-labelledby="booklet-heading">
+    <div class="wrap">
+      <h2 class="sect-label" id="booklet-heading"><span lang="ja">冊子</span> Your booklet</h2>
+      <div class="gate">
+        <ol class="gate__steps">
+          <li><p>Download the booklet from LEGO: <a id="download" href="#" target="_blank" rel="noopener">instructions 6394823, Vespa (set 40517)</a>.<br><span class="mono">PDF · 40 pages · 6 MB</span></p></li>
+          <li><p>Open it here, or drop it on the box. It is checked against the reviewed booklet before anything is shown.</p></li>
+          <li><p>It never leaves your browser. This site holds only the index: part numbers, steps, pages and positions. This device can keep the booklet for next time.</p></li>
+        </ol>
+        <label class="drop" id="drop">
+          <input id="booklet-file" type="file" accept="application/pdf,.pdf">
+          <b>Open your booklet</b>
+          <span class="mono">Choose the PDF, or drop it here</span>
+        </label>
+        <p class="gate__status" id="gate-status" role="status" aria-live="polite"></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="spread" id="workspace" hidden>
+    <div class="wrap workspace">
+      <section class="inventory" aria-labelledby="parts-heading">
+        <h2 class="sect-label" id="parts-heading" tabindex="-1"><span lang="ja">部品</span> Which piece do you have?</h2>
+        <div class="filter">
+          <label for="search">Part number, if you know it</label>
+          <input id="search" type="search" inputmode="numeric" placeholder="Filter the inventory" autocomplete="off" aria-controls="parts-list">
+        </div>
+        <div class="tray" id="parts-list"></div>
+        <p class="cap" id="inventory-count"></p>
+      </section>
+      <section class="results figs" id="results" aria-labelledby="results-heading"></section>
+    </div>
+    <p class="visually-hidden" id="announcement" role="status" aria-live="polite"></p>
+  </section>
+</main>
+
+<footer class="spread colophon">
+  <div class="wrap">
+    <h2 class="sect-label"><span lang="ja">奥付</span> Colophon</h2>
+    <dl>
+      <dt>Booklet</dt>
+      <dd>Vespa, set 40517: LEGO building instructions 6394823. The index covers its 60 piece types, 117 pieces and 47 steps, reviewed by hand against the printed inventory.</dd>
+      <dt>Results</dt>
+      <dd>The steps that <em>add</em> a piece, with its callout marked. A matching step alone does not prove the piece was missed; compare it with your build.</dd>
+      <dt>Privacy</dt>
+      <dd>Your booklet is read in your browser and goes nowhere. <span id="remembered">This device keeps a copy only after you open one here.</span> <button type="button" id="forget" hidden>Forget it</button></dd>
+      <dt>Code</dt>
+      <dd><a href="https://github.com/s1lin/brick-locator">github.com/s1lin/brick-locator</a>, under the GNU AGPL 3.0. Pages are drawn with <a href="https://mozilla.github.io/pdf.js/">PDF.js</a> (Apache 2.0).</dd>
+      <dt>Small print</dt>
+      <dd>LEGO® is a trademark of the LEGO Group of companies which does not sponsor, authorize or endorse this site. The instruction artwork is © the LEGO Group; this site hosts none of it.</dd>
+    </dl>
+    <div class="endmark mono"><p>© 2026 s1lin</p><p><a href="/">s1lin.tokensbeat.com ↗</a></p></div>
+  </div>
+</footer>
+
+<noscript><p class="wrap">Brick Locator draws the pages from your booklet in the browser, so it needs JavaScript.</p></noscript>
+<script type="module" src="app.js"></script>
+</body>
+</html>

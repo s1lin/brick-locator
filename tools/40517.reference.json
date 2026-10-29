@@ -1,0 +1,258 @@
+{
+  "title": "Vespa",
+  "set": "40517",
+  "booklet": "6394823",
+  "sha256": "0f4f420b7fa4f6f754ce44f25600391ee26269cedc4d479aba1ab3b3b12dd686",
+  "url": "https://www.lego.com/cdn/product-assets/product.bi.core.pdf/6394823.pdf",
+  "inventory_pages": [
+    38,
+    39
+  ],
+  "instruction_pages": [
+    3,
+    35
+  ],
+  "step_count": 47,
+  "parts": {
+    "302201": {
+      "inventory_image": 396,
+      "step_image": 580
+    },
+    "6341972": {
+      "inventory_image": 409,
+      "step_image": 278
+    },
+    "6170390": {
+      "inventory_image": 393,
+      "step_image": 616
+    },
+    "407021": {
+      "inventory_image": 401,
+      "step_image": 617
+    },
+    "6210269": {
+      "inventory_image": 378,
+      "step_image": 579
+    },
+    "4161329": {
+      "inventory_image": 380,
+      "step_image": 52
+    },
+    "4160866": {
+      "inventory_image": 402,
+      "step_image": 103
+    },
+    "403221": {
+      "inventory_image": 408,
+      "step_image": 585
+    },
+    "6173961": {
+      "inventory_image": 413,
+      "step_image": 588
+    },
+    "6053011": {
+      "inventory_image": 384,
+      "step_image": 149
+    },
+    "6347308": {
+      "inventory_image": 375,
+      "step_image": 627
+    },
+    "306921": {
+      "inventory_image": 390,
+      "step_image": 583
+    },
+    "6196217": {
+      "inventory_image": 414,
+      "step_image": 581
+    },
+    "6092565": {
+      "inventory_image": 405,
+      "step_image": 586
+    },
+    "6346804": {
+      "inventory_image": 374,
+      "step_image": 47
+    },
+    "4226876": {
+      "inventory_image": 388,
+      "step_image": 77
+    },
+    "306821": {
+      "inventory_image": 389,
+      "step_image": 626
+    },
+    "6105976": {
+      "inventory_image": 386,
+      "step_image": 63
+    },
+    "6385920": {
+      "inventory_image": 404,
+      "step_image": 24
+    },
+    "6347696": {
+      "inventory_image": 379,
+      "step_image": 156
+    },
+    "6310198": {
+      "inventory_image": 407,
+      "step_image": 141
+    },
+    "6301899": {
+      "inventory_image": 376,
+      "step_image": 590
+    },
+    "6384341": {
+      "inventory_image": 387,
+      "step_image": 263
+    },
+    "6365716": {
+      "inventory_image": 391,
+      "step_image": 582
+    },
+    "6212012": {
+      "inventory_image": 392,
+      "step_image": 212
+    },
+    "6056816": {
+      "inventory_image": 383,
+      "step_image": 34
+    },
+    "6286215": {
+      "inventory_image": 403,
+      "step_image": 130
+    },
+    "302121": {
+      "inventory_image": 381,
+      "step_image": 584
+    },
+    "6189130": {
+      "inventory_image": 406,
+      "step_image": 205
+    },
+    "4157223": {
+      "inventory_image": 410,
+      "step_image": 241
+    },
+    "371021": {
+      "inventory_image": 411,
+      "step_image": 134
+    },
+    "4613174": {
+      "inventory_image": 377,
+      "step_image": 45
+    },
+    "6074878": {
+      "inventory_image": 400,
+      "step_image": 589
+    },
+    "6108802": {
+      "inventory_image": 412,
+      "step_image": 131
+    },
+    "366621": {
+      "inventory_image": 385,
+      "step_image": 587
+    },
+    "379521": {
+      "inventory_image": 382,
+      "step_image": 615
+    },
+    "6168646": {
+      "inventory_image": 397,
+      "step_image": 226
+    },
+    "6371584": {
+      "inventory_image": 442,
+      "step_image": 275
+    },
+    "6308000": {
+      "inventory_image": 429,
+      "step_image": 628
+    },
+    "6173124": {
+      "inventory_image": 486,
+      "step_image": 230
+    },
+    "370026": {
+      "inventory_image": 425,
+      "step_image": 153
+    },
+    "6000650": {
+      "inventory_image": 484,
+      "step_image": 29
+    },
+    "6211476": {
+      "inventory_image": 423,
+      "step_image": 79
+    },
+    "6118829": {
+      "inventory_image": 460,
+      "step_image": 40
+    },
+    "4550937": {
+      "inventory_image": 452,
+      "step_image": 622
+    },
+    "6009018": {
+      "inventory_image": 463,
+      "step_image": 39
+    },
+    "6350415": {
+      "inventory_image": 418,
+      "step_image": 14
+    },
+    "6245306": {
+      "inventory_image": 453,
+      "step_image": 266
+    },
+    "6252042": {
+      "inventory_image": 485,
+      "step_image": 84
+    },
+    "6308012": {
+      "inventory_image": 466,
+      "step_image": 87
+    },
+    "6227897": {
+      "inventory_image": 492,
+      "step_image": 18
+    },
+    "4211807": {
+      "inventory_image": 448,
+      "step_image": 217
+    },
+    "6338962": {
+      "inventory_image": 455,
+      "step_image": 299
+    },
+    "6109684": {
+      "inventory_image": 427,
+      "step_image": 621
+    },
+    "4211570": {
+      "inventory_image": 479,
+      "step_image": 30
+    },
+    "6115080": {
+      "inventory_image": 422,
+      "step_image": 268
+    },
+    "4211133": {
+      "inventory_image": 449,
+      "step_image": 629
+    },
+    "6338470": {
+      "inventory_image": 462,
+      "step_image": 12
+    },
+    "4260707": {
+      "inventory_image": 473,
+      "step_image": 132
+    },
+    "6130008": {
+      "inventory_image": 464,
+      "step_image": 285
+    }
+  }
+}

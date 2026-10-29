@@ -1,0 +1,3 @@
+# Only for rebuilding an index from a booklet (tools/build_index.py).
+# The viewer itself needs nothing installed.
+PyMuPDF==2.0
